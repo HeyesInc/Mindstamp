@@ -1,11 +1,8 @@
 package com.heyesinc.api.mindstamp.dtos;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
-
-import java.util.List;
 
 @Data
 @Builder
@@ -13,10 +10,10 @@ import java.util.List;
 public class Post {
 
     @Id
+    @Column(name = "post_id")
     private final int id;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private final User user;
     private String content;
-    private List<Reaction> reactionList;
-    private List<Comment> commentList;
-
 }
