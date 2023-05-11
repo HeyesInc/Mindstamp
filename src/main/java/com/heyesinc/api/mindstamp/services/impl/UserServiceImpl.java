@@ -1,12 +1,15 @@
 package com.heyesinc.api.mindstamp.services.impl;
 
 import com.heyesinc.api.mindstamp.dtos.User;
+import com.heyesinc.api.mindstamp.dtos.UserRequest;
 import com.heyesinc.api.mindstamp.repositorys.UserRepository;
 import com.heyesinc.api.mindstamp.services.UserService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -19,21 +22,40 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAllUsers() {
-        return null;
+        return userRepository.findAll();
     }
 
     @Override
-    public User getUserById(int Id) {
-        return null;
+    public User getUserById(int userId) {
+        return userRepository.findById(userId).orElseThrow();
     }
 
     @Override
-    public User editUserById(int Id, User user) {
-        return null;
+    public String addUser(UserRequest userRequest) {
+         userRepository.save(User.builder()
+                         .username(userRequest.getUsername())
+                         .password(userRequest.getPassword())
+                         .posts(null)
+                         .build());
+         return "User Created";
     }
 
     @Override
-    public String deleteUserById(int Id) {
+    @Transactional
+    public String editUserById(int userId, UserRequest newUser) {
+        User user = userRepository.findById(userId).orElseThrow();
+        if(newUser.getUsername() != null){
+            user.setPassword(newUser.getPassword());
+        }
+        if(newUser.getPassword() != null){
+            user.setUsername(newUser.getUsername());
+        }
+        return "User updated";
+    }
+
+    @Override
+    @Transactional
+    public String deleteUserById(int userId) {
         return null;
     }
 }

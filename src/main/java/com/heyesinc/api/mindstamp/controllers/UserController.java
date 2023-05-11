@@ -1,6 +1,7 @@
 package com.heyesinc.api.mindstamp.controllers;
 
 import com.heyesinc.api.mindstamp.dtos.User;
+import com.heyesinc.api.mindstamp.dtos.UserRequest;
 import com.heyesinc.api.mindstamp.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,14 +31,19 @@ public class UserController {
         return ResponseEntity.ok().body(userService.getUserById(userId));
     }
 
+    @PostMapping
+    public ResponseEntity<String> addUser(@RequestBody UserRequest userRequest){
+        return ResponseEntity.ok().body(userService.addUser(userRequest));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable("id") Integer userId){
         return ResponseEntity.ok().body(userService.deleteUserById(userId));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> editUserById(@PathVariable("id") Integer userId, @RequestBody User user){
-        return ResponseEntity.ok().body(userService.editUserById(userId, user));
+    public ResponseEntity<String> editUserById(@PathVariable("id") Integer userId, @RequestBody UserRequest newUser){
+        return ResponseEntity.ok().body(userService.editUserById(userId, newUser));
     }
 
 }
