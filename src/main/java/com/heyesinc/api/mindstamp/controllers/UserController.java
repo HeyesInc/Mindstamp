@@ -1,5 +1,6 @@
 package com.heyesinc.api.mindstamp.controllers;
 
+import com.heyesinc.api.mindstamp.dtos.PostRequest;
 import com.heyesinc.api.mindstamp.dtos.User;
 import com.heyesinc.api.mindstamp.dtos.UserRequest;
 import com.heyesinc.api.mindstamp.services.UserService;
@@ -36,13 +37,20 @@ public class UserController {
         return ResponseEntity.ok().body(userService.addUser(userRequest));
     }
 
+    @PostMapping("/{id}")
+    public ResponseEntity<String> addPostToUser(@PathVariable("id") int userId,
+                                                @RequestBody PostRequest postRequest){
+        return ResponseEntity.ok().body(userService.addPostToUser(userId,postRequest));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable("id") Integer userId){
         return ResponseEntity.ok().body(userService.deleteUserById(userId));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> editUserById(@PathVariable("id") Integer userId, @RequestBody UserRequest newUser){
+    public ResponseEntity<String> editUserById(@PathVariable("id") Integer userId,
+                                               @RequestBody UserRequest newUser){
         return ResponseEntity.ok().body(userService.editUserById(userId, newUser));
     }
 
