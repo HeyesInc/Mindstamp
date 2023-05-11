@@ -1,6 +1,7 @@
 package com.heyesinc.api.mindstamp.controllers;
 
 import com.heyesinc.api.mindstamp.dtos.Post;
+import com.heyesinc.api.mindstamp.dtos.PostRequest;
 import com.heyesinc.api.mindstamp.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +37,7 @@ public class PostController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Post> editUserById(@PathVariable("id") Integer postId, @RequestBody Post post){
-        return ResponseEntity.ok().body(postService.editPostById(postId, post));
+    public ResponseEntity<String> editUserById(@PathVariable("id") Integer postId, @RequestBody PostRequest newPost){
+        return ResponseEntity.ok().body(postService.editPostById(postId, newPost));
     }
 }

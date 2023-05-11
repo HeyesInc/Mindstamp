@@ -1,6 +1,7 @@
 package com.heyesinc.api.mindstamp.services;
 
 import com.heyesinc.api.mindstamp.dtos.Post;
+import com.heyesinc.api.mindstamp.dtos.PostRequest;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ public interface PostService {
 
     public Post getPostById(int postId);
 
-    public Post editPostById(int postId, Post post);
+    public String editPostById(int postId, PostRequest newPost);
 
     public String deletePostById(int postId);
 }

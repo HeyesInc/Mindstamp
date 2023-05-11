@@ -1,8 +1,10 @@
 package com.heyesinc.api.mindstamp.services.impl;
 
 import com.heyesinc.api.mindstamp.dtos.Post;
+import com.heyesinc.api.mindstamp.dtos.PostRequest;
 import com.heyesinc.api.mindstamp.repositorys.PostRepository;
 import com.heyesinc.api.mindstamp.services.PostService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,17 +22,20 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<Post> getAllPosts() {
-        return null;
+        return postRepository.findAll();
     }
 
     @Override
     public Post getPostById(int postId) {
-        return null;
+        return postRepository.findById(postId).orElseThrow();
     }
 
     @Override
-    public Post editPostById(int postId, Post post) {
-        return null;
+    @Transactional
+    public String editPostById(int postId, PostRequest newPost) {
+        Post post = postRepository.findById(postId).orElseThrow();
+        post.setContent(newPost.getContent());
+        return "Post Updated";
     }
 
     @Override
