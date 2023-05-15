@@ -1,22 +1,25 @@
 package com.heyesinc.api.mindstamp.dtos;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
-@Data
+import jakarta.persistence.*;
+import lombok.*;
+
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(name="Posts")
 public class Post {
 
     @Id
+    @GeneratedValue
     @Column(name = "post_id")
     private int id;
-    @ManyToOne
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
     private String content;

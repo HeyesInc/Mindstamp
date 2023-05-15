@@ -1,11 +1,13 @@
 package com.heyesinc.api.mindstamp.dtos;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Builder
 @Entity
 @AllArgsConstructor
@@ -19,10 +21,8 @@ public class User {
     private int id;
     private String username;
     private String password;
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "post_user",
-    joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
-    inverseJoinColumns = @JoinColumn(name = "post_id", referencedColumnName = "post_id"))
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts;
 
 }

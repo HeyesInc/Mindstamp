@@ -40,6 +40,8 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public String deletePostById(int postId) {
-        return null;
+        Post post = postRepository.findById(postId).orElseThrow();
+        postRepository.delete(post);
+        return "Post Deleted";
     }
 }
