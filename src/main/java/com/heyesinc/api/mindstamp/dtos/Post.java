@@ -23,4 +23,6 @@ public class Post {
     @JoinColumn(name = "user_id")
     private User user;
     private String content;
+    private int likeCount;
+    private int dislikeCount;
 }

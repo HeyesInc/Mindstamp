@@ -12,24 +12,19 @@ import java.util.List;
 
 @Service
 public class PostServiceImpl implements PostService {
-
     private final PostRepository postRepository;
-
     @Autowired
     public PostServiceImpl(PostRepository postRepository){
         this.postRepository = postRepository;
     }
-
     @Override
     public List<Post> getAllPosts() {
         return postRepository.findAll();
     }
-
     @Override
     public Post getPostById(int postId) {
         return postRepository.findById(postId).orElseThrow();
     }
-
     @Override
     @Transactional
     public String editPostById(int postId, PostRequest newPost) {
@@ -37,11 +32,25 @@ public class PostServiceImpl implements PostService {
         post.setContent(newPost.getContent());
         return "Post Updated";
     }
-
     @Override
+    @Transactional
     public String deletePostById(int postId) {
         Post post = postRepository.findById(postId).orElseThrow();
         postRepository.delete(post);
         return "Post Deleted";
+    }
+    @Override
+    @Transactional
+    public String addLike(int postId) {
+        Post post = postRepository.findById(postId).orElseThrow();
+        post.setLikeCount(post.getLikeCount()+1);
+        return "Like Added";
+    }
+    @Override
+    @Transactional
+    public String addDislike(int postId) {
+        Post post = postRepository.findById(postId).orElseThrow();
+        post.setDislikeCount(post.getDislikeCount()+1);
+        return "Disike Added";
     }
 }
