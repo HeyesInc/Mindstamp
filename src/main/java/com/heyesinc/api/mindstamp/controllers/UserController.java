@@ -1,5 +1,6 @@
 package com.heyesinc.api.mindstamp.controllers;
 
+import com.heyesinc.api.mindstamp.dtos.Post;
 import com.heyesinc.api.mindstamp.dtos.PostRequest;
 import com.heyesinc.api.mindstamp.dtos.User;
 import com.heyesinc.api.mindstamp.dtos.UserRequest;
@@ -30,14 +31,19 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable("id") int userId){
+    public ResponseEntity<User> getUserById(@PathVariable("id") Integer userId){
         return ResponseEntity.ok().body(userService.getUserById(userId));
     }
 
-    @PostMapping("/post")
+    @PostMapping("/posts")
     public ResponseEntity<String> addPostToUser(@RequestBody PostRequest postRequest,
                                                 HttpServletRequest token){
         return ResponseEntity.ok().body(userService.addPostToUser(postRequest,token));
+    }
+
+    @GetMapping("/posts")
+    public ResponseEntity<List<Post>> getUserPostsByToken(HttpServletRequest token){
+        return ResponseEntity.ok().body(userService.getUserPostsByToken(token));
     }
 
     @DeleteMapping("/{id}")

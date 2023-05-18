@@ -1,5 +1,6 @@
 package com.heyesinc.api.mindstamp.services;
 
+import com.heyesinc.api.mindstamp.dtos.Post;
 import com.heyesinc.api.mindstamp.dtos.PostRequest;
 import com.heyesinc.api.mindstamp.dtos.User;
 import com.heyesinc.api.mindstamp.dtos.UserRequest;
@@ -12,6 +13,8 @@ public interface UserService {
     public List<User> getAllUsers();
 
     public User getUserById(int userId);
+
+    public List<Post> getUserPostsByToken(HttpServletRequest token);
 
     public String addPostToUser(PostRequest postRequest, HttpServletRequest token);
 
