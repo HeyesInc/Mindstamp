@@ -38,6 +38,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<Post> getUserPostsByToken(HttpServletRequest token) {
+        User user=  userRepository.findByUsername(jwtService.emailFromJwt(token)).orElseThrow();
+        return user.getPosts();
+    }
+
+    @Override
     @Transactional
     public String addPostToUser(PostRequest postRequest, HttpServletRequest token) {
         User user = userRepository.findByUsername(jwtService.emailFromJwt(token)).orElseThrow();

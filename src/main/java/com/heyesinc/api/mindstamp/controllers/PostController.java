@@ -28,15 +28,15 @@ public class PostController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Post> getUserById(@PathVariable("id") int postId){
+    public ResponseEntity<Post> getPostById(@PathVariable("id") Integer postId){
         return ResponseEntity.ok().body(postService.getPostById(postId));
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable("id") Integer postId){
+    public ResponseEntity<String> deletePost(@PathVariable("id") Integer postId){
         return ResponseEntity.ok().body(postService.deletePostById(postId));
     }
     @PutMapping("/{id}")
-    public ResponseEntity<String> editUserById(@PathVariable("id") Integer postId, @RequestBody PostRequest newPost){
+    public ResponseEntity<String> editPostById(@PathVariable("id") Integer postId, @RequestBody PostRequest newPost){
         return ResponseEntity.ok().body(postService.editPostById(postId, newPost));
     }
     @PostMapping("/{id}/like")
