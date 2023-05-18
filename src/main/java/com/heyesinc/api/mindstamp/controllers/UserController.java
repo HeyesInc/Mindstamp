@@ -4,6 +4,7 @@ import com.heyesinc.api.mindstamp.dtos.PostRequest;
 import com.heyesinc.api.mindstamp.dtos.User;
 import com.heyesinc.api.mindstamp.dtos.UserRequest;
 import com.heyesinc.api.mindstamp.services.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/users")
+@CrossOrigin
 public class UserController {
 
     private final UserService userService;
@@ -32,15 +34,10 @@ public class UserController {
         return ResponseEntity.ok().body(userService.getUserById(userId));
     }
 
-    @PostMapping
-    public ResponseEntity<String> addUser(@RequestBody UserRequest userRequest){
-        return ResponseEntity.ok().body(userService.addUser(userRequest));
-    }
-
-    @PostMapping("/{id}")
-    public ResponseEntity<String> addPostToUser(@PathVariable("id") int userId,
-                                                @RequestBody PostRequest postRequest){
-        return ResponseEntity.ok().body(userService.addPostToUser(userId,postRequest));
+    @PostMapping("/post")
+    public ResponseEntity<String> addPostToUser(@RequestBody PostRequest postRequest,
+                                                HttpServletRequest token){
+        return ResponseEntity.ok().body(userService.addPostToUser(postRequest,token));
     }
 
     @DeleteMapping("/{id}")
