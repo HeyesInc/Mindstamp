@@ -15,7 +15,7 @@ import java.util.List;
 @CrossOrigin
 public class PostController {
 
-    private final PostService postService;
+    private PostService postService;
 
     @Autowired
     public PostController(PostService postService){
