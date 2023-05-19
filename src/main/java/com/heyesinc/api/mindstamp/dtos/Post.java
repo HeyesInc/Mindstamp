@@ -23,8 +23,9 @@ public class Post {
     private int id;
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "username", referencedColumnName = "username")
+    @JoinColumn(name = "user_id")
     private User user;
+    private String username;
     private String content;
     private int likeCount;
     private int dislikeCount;
