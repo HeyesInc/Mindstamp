@@ -50,7 +50,6 @@ public class UserServiceImpl implements UserService {
         Post post = Post.builder()
                 .content(postRequest.getContent())
                 .user(user)
-                .username(user.getUsername())
                 .build();
         user.getPosts().add(post);
         return "Post added";

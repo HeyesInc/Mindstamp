@@ -35,9 +35,8 @@ public class SecurityConfiguration {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/users/auth/**")
-                .permitAll()
-                .requestMatchers(new AntPathRequestMatcher("/h2-console/**"))
+                .requestMatchers(new AntPathRequestMatcher("/users/auth/**"),
+                        new AntPathRequestMatcher("/h2-console/**"))
                 .permitAll()
                 .anyRequest()
                 .authenticated()
