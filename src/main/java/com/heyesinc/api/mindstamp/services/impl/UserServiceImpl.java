@@ -18,9 +18,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
-
     private JwtService jwtService;
-
     @Autowired
     public UserServiceImpl(UserRepository userRepository, JwtService jwtService){
         this.userRepository = userRepository;

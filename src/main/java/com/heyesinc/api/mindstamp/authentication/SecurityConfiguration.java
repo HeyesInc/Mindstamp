@@ -1,6 +1,7 @@
 package com.heyesinc.api.mindstamp.authentication;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -24,6 +25,13 @@ public class SecurityConfiguration {
 
     private JwtAuthenticationFilter jwtAuthFilter;
     private AuthenticationProvider authenticationProvider;
+
+    @Autowired
+    public SecurityConfiguration(JwtAuthenticationFilter jwtAuthFilter,
+                                 AuthenticationProvider authenticationProvider){
+        this.jwtAuthFilter = jwtAuthFilter;
+        this.authenticationProvider = authenticationProvider;
+    }
 
 //    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
