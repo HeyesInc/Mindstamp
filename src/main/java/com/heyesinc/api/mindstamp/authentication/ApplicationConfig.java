@@ -2,6 +2,7 @@ package com.heyesinc.api.mindstamp.authentication;
 
 import com.heyesinc.api.mindstamp.repositorys.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,7 +18,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @RequiredArgsConstructor
 public class ApplicationConfig {
 
-    private final UserRepository userRepository;
+
+    private UserRepository userRepository;
+    @Autowired
+    public ApplicationConfig(UserRepository userRepository){
+        this.userRepository = userRepository;
+    }
 
     @Bean
     public UserDetailsService userDetailsService(){
