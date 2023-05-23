@@ -1,6 +1,9 @@
 package com.heyesinc.api.mindstamp.services.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.heyesinc.api.mindstamp.authentication.JwtService;
+import com.heyesinc.api.mindstamp.authentication.configuration.JsonConfig;
+import com.heyesinc.api.mindstamp.authentication.configuration.KafkaConfigProps;
 import com.heyesinc.api.mindstamp.dtos.Post;
 import com.heyesinc.api.mindstamp.dtos.PostRequest;
 import com.heyesinc.api.mindstamp.dtos.User;
@@ -10,6 +13,7 @@ import com.heyesinc.api.mindstamp.services.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,10 +23,15 @@ public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
     private JwtService jwtService;
+
+    private KafkaTemplate kafkaTemplate;
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, JwtService jwtService){
+    public UserServiceImpl(UserRepository userRepository,
+                           JwtService jwtService,
+                           KafkaTemplate kafkaTemplate){
         this.userRepository = userRepository;
         this.jwtService = jwtService;
+        this.kafkaTemplate = kafkaTemplate;
     }
 
     @Override
@@ -43,7 +52,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public String addPostToUser(PostRequest postRequest, HttpServletRequest token) {
+    public String addPostToUser(PostRequest postRequest, HttpServletRequest token)  {
         User user = userRepository.findByUsername(jwtService.emailFromJwt(token)).orElseThrow();
         Post post = Post.builder()
                 .content(postRequest.getContent())
@@ -51,6 +60,12 @@ public class UserServiceImpl implements UserService {
                 .username(user.getUsername())
                 .build();
         user.getPosts().add(post);
+        try{
+            kafkaTemplate.send("user.posts", JsonConfig.objectMapper().writeValueAsString(post));
+        }catch (JsonProcessingException e){
+            System.out.println(e);
+        }
+
         return "Post added";
     }
 

@@ -9,5 +9,4 @@ public class MindstampApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MindstampApplication.class, args);
 	}
-
 }
