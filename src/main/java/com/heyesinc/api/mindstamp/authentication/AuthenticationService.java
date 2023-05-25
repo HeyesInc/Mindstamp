@@ -9,6 +9,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import static com.heyesinc.api.mindstamp.enums.Access.USER;
+
 @Service
 public class AuthenticationService {
 
@@ -33,6 +35,7 @@ public class AuthenticationService {
         var user = User.builder()
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
+                .access(USER)
                 .build();
         userRepository.save(user);
         var jwtToken = jwtService.generateToken(user);
