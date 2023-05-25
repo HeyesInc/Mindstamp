@@ -57,14 +57,14 @@ public class PostServiceImpl implements PostService {
         User user = userRepository.findByUsername(jwtService.emailFromJwt(request)).orElseThrow();
         Post post = postRepository.findById(postId).orElseThrow();
 
-        boolean alreadyLiked = post.getUsersThatLiked().contains(user.getUsername());
-        boolean alreadyDisliked = post.getUsersThatDisliked().contains(user.getUsername());
+        boolean alreadyLiked = post.getUsersThatLiked().contains(user);
+        boolean alreadyDisliked = post.getUsersThatDisliked().contains(user);
 
         if (!alreadyDisliked && !alreadyLiked) {
-            post.getUsersThatLiked().add(user.getUsername());
+            post.getUsersThatLiked().add(user);
         }else if(alreadyDisliked && !alreadyLiked){
-            post.getUsersThatDisliked().remove(user.getUsername());
-            post.getUsersThatLiked().add(user.getUsername());
+            post.getUsersThatDisliked().remove(user);
+            post.getUsersThatLiked().add(user);
         }
         return PostResponse.builder()
                 .likeCount(post.getUsersThatLiked().size())
@@ -77,14 +77,14 @@ public class PostServiceImpl implements PostService {
         User user = userRepository.findByUsername(jwtService.emailFromJwt(request)).orElseThrow();
         Post post = postRepository.findById(postId).orElseThrow();
 
-        boolean alreadyLiked = post.getUsersThatLiked().contains(user.getUsername());
-        boolean alreadyDisliked = post.getUsersThatDisliked().contains(user.getUsername());
+        boolean alreadyLiked = post.getUsersThatLiked().contains(user);
+        boolean alreadyDisliked = post.getUsersThatDisliked().contains(user);
 
         if (!alreadyDisliked && !alreadyLiked) {
-            post.getUsersThatDisliked().add(user.getUsername());
+            post.getUsersThatDisliked().add(user);
         }else if(alreadyLiked && !alreadyDisliked){
-            post.getUsersThatLiked().remove(user.getUsername());
-            post.getUsersThatDisliked().add(user.getUsername());
+            post.getUsersThatLiked().remove(user);
+            post.getUsersThatDisliked().add(user);
         }
         return PostResponse.builder()
                 .likeCount(post.getUsersThatLiked().size())

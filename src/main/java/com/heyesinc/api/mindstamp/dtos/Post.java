@@ -28,8 +28,8 @@ public class Post {
     private User user;
     private String username;
     private String content;
-    private List<String> usersThatDisliked;
-    private List<String> usersThatLiked;
+    private List<User> usersThatDisliked;
+    private List<User> usersThatLiked;
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
