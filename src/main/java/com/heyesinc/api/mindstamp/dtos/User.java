@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-import static com.heyesinc.api.mindstamp.enums.Access.USER;
 
 @Getter
 @Setter
@@ -28,7 +27,7 @@ public class User implements UserDetails {
     @Column(unique = true)
     private String username;
     private String password;
-    private Access access = USER;
+    private Access access;
     @JsonManagedReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts;

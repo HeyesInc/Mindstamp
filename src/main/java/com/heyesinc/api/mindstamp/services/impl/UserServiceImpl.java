@@ -61,6 +61,8 @@ public class UserServiceImpl implements UserService {
                 .content(postRequest.getContent())
                 .user(user)
                 .username(user.getUsername())
+                .usersThatDisliked(new ArrayList<>())
+                .usersThatLiked(new ArrayList<>())
                 .build();
         user.getPosts().add(post);
         return "Post added";

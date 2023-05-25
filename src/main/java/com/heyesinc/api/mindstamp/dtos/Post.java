@@ -7,6 +7,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -29,6 +30,8 @@ public class Post {
     private String content;
     private int likeCount;
     private int dislikeCount;
+    private List<String> usersThatDisliked;
+    private List<String> usersThatLiked;
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
