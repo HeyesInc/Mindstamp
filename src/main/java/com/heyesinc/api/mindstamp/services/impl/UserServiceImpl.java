@@ -12,7 +12,10 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import static com.heyesinc.api.mindstamp.enums.Access.ADMIN;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -26,8 +29,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<User> getAllUsers(HttpServletRequest request) {
+        String username = jwtService.emailFromJwt(request);
+        User user = userRepository.findByUsername(username).orElseThrow();
+        if(user.getAccess().equals(ADMIN)){
+            return userRepository.findAll();
+        }else{
+            List<User> singleUserList = new ArrayList<>();
+            singleUserList.add(user);
+            return singleUserList;
+        }
+
     }
 
     @Override
