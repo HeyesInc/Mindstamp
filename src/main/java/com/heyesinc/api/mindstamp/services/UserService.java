@@ -10,16 +10,16 @@ import java.util.List;
 
 public interface UserService {
 
-    public List<User> getAllUsers();
+    List<User> getAllUsers(HttpServletRequest request);
 
-    public User getUserById(int userId);
+    User getUserById(int userId);
 
-    public List<Post> getUserPostsByToken(HttpServletRequest token);
+    List<Post> getUserPostsByToken(HttpServletRequest token);
 
-    public String addPostToUser(PostRequest postRequest, HttpServletRequest token);
+    String addPostToUser(PostRequest postRequest, HttpServletRequest token);
 
-    public String editUserById(int userId, UserRequest user);
+    String editUserById(int userId, UserRequest user);
 
-    public String deleteUserById(int userId);
+    String deleteUserById(int userId);
 
 }
