@@ -14,7 +14,7 @@ public interface UserService {
 
     User getUserById(int userId);
 
-    List<Post> getUserPostsByToken(HttpServletRequest token);
+    List<Post> getUserPosts(HttpServletRequest token);
 
     String addPostToUser(PostRequest postRequest, HttpServletRequest token);
 

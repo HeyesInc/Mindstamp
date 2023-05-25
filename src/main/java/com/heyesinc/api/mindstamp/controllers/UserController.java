@@ -43,7 +43,7 @@ public class UserController {
 
     @GetMapping("/posts")
     public ResponseEntity<List<Post>> getUserPostsByToken(HttpServletRequest token){
-        return ResponseEntity.ok().body(userService.getUserPostsByToken(token));
+        return ResponseEntity.ok().body(userService.getUserPosts(token));
     }
 
     @DeleteMapping("/{id}")

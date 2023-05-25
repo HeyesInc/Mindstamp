@@ -3,6 +3,7 @@ package com.heyesinc.api.mindstamp.services.impl;
 import com.heyesinc.api.mindstamp.authentication.JwtService;
 import com.heyesinc.api.mindstamp.dtos.Post;
 import com.heyesinc.api.mindstamp.dtos.PostRequest;
+import com.heyesinc.api.mindstamp.dtos.PostResponse;
 import com.heyesinc.api.mindstamp.dtos.User;
 import com.heyesinc.api.mindstamp.repositorys.PostRepository;
 import com.heyesinc.api.mindstamp.repositorys.UserRepository;
@@ -51,7 +52,7 @@ public class PostServiceImpl implements PostService {
     }
     @Override
     @Transactional
-    public Post addLike(int postId, HttpServletRequest request) {
+    public PostResponse addLike(int postId, HttpServletRequest request) {
 
         User user = userRepository.findByUsername(jwtService.emailFromJwt(request)).orElseThrow();
         Post post = postRepository.findById(postId).orElseThrow();
@@ -61,21 +62,18 @@ public class PostServiceImpl implements PostService {
 
         if (!alreadyDisliked && !alreadyLiked) {
             post.getUsersThatLiked().add(user.getUsername());
-            post.setLikeCount(post.getLikeCount() + 1);
         }else if(alreadyDisliked && !alreadyLiked){
             post.getUsersThatDisliked().remove(user.getUsername());
             post.getUsersThatLiked().add(user.getUsername());
-            post.setDislikeCount(post.getDislikeCount() -1);
-            post.setLikeCount(post.getLikeCount() +1);
         }
-        return Post.builder()
-                .likeCount(post.getLikeCount())
-                .dislikeCount(post.getDislikeCount())
+        return PostResponse.builder()
+                .likeCount(post.getUsersThatLiked().size())
+                .dislikeCount(post.getUsersThatDisliked().size())
                 .build();
     }
     @Override
     @Transactional
-    public Post addDislike(int postId, HttpServletRequest request) {
+    public PostResponse addDislike(int postId, HttpServletRequest request) {
         User user = userRepository.findByUsername(jwtService.emailFromJwt(request)).orElseThrow();
         Post post = postRepository.findById(postId).orElseThrow();
 
@@ -84,25 +82,22 @@ public class PostServiceImpl implements PostService {
 
         if (!alreadyDisliked && !alreadyLiked) {
             post.getUsersThatDisliked().add(user.getUsername());
-            post.setDislikeCount(post.getDislikeCount() + 1);
         }else if(alreadyLiked && !alreadyDisliked){
             post.getUsersThatLiked().remove(user.getUsername());
             post.getUsersThatDisliked().add(user.getUsername());
-            post.setDislikeCount(post.getDislikeCount() +1);
-            post.setLikeCount(post.getLikeCount() -1);
         }
-        return Post.builder()
-                .likeCount(post.getLikeCount())
-                .dislikeCount(post.getDislikeCount())
+        return PostResponse.builder()
+                .likeCount(post.getUsersThatLiked().size())
+                .dislikeCount(post.getUsersThatDisliked().size())
                 .build();
     }
 
     @Override
-    public Post getInteractions(int postId) {
+    public PostResponse getInteractions(int postId) {
         Post post = postRepository.findById(postId).orElseThrow();
-        return Post.builder()
-                .dislikeCount(post.getDislikeCount())
-                .likeCount(post.getLikeCount())
+        return PostResponse.builder()
+                .dislikeCount(post.getUsersThatDisliked().size())
+                .likeCount(post.getUsersThatLiked().size())
                 .build();
     }
 }
