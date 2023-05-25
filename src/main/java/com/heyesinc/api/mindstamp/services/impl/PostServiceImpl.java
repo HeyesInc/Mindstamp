@@ -52,12 +52,17 @@ public class PostServiceImpl implements PostService {
     @Override
     @Transactional
     public Post addLike(int postId, HttpServletRequest request) {
+
         User user = userRepository.findByUsername(jwtService.emailFromJwt(request)).orElseThrow();
         Post post = postRepository.findById(postId).orElseThrow();
-        if (!post.getUsersThatDisliked().contains(user.getUsername()) && !post.getUsersThatLiked().contains(user.getUsername())) {
+
+        boolean alreadyLiked = post.getUsersThatLiked().contains(user.getUsername());
+        boolean alreadyDisliked = post.getUsersThatDisliked().contains(user.getUsername());
+
+        if (!alreadyDisliked && !alreadyLiked) {
             post.getUsersThatLiked().add(user.getUsername());
             post.setLikeCount(post.getLikeCount() + 1);
-        }else if(post.getUsersThatDisliked().contains(user.getUsername()) && !post.getUsersThatLiked().contains(user.getUsername())){
+        }else if(alreadyDisliked && !alreadyLiked){
             post.getUsersThatDisliked().remove(user.getUsername());
             post.getUsersThatLiked().add(user.getUsername());
             post.setDislikeCount(post.getDislikeCount() -1);
@@ -73,10 +78,14 @@ public class PostServiceImpl implements PostService {
     public Post addDislike(int postId, HttpServletRequest request) {
         User user = userRepository.findByUsername(jwtService.emailFromJwt(request)).orElseThrow();
         Post post = postRepository.findById(postId).orElseThrow();
-        if (!post.getUsersThatDisliked().contains(user.getUsername()) && !post.getUsersThatLiked().contains(user.getUsername())) {
+
+        boolean alreadyLiked = post.getUsersThatLiked().contains(user.getUsername());
+        boolean alreadyDisliked = post.getUsersThatDisliked().contains(user.getUsername());
+
+        if (!alreadyDisliked && !alreadyLiked) {
             post.getUsersThatDisliked().add(user.getUsername());
             post.setDislikeCount(post.getDislikeCount() + 1);
-        }else if(!post.getUsersThatDisliked().contains(user.getUsername()) && post.getUsersThatLiked().contains(user.getUsername())){
+        }else if(alreadyLiked && !alreadyDisliked){
             post.getUsersThatLiked().remove(user.getUsername());
             post.getUsersThatDisliked().add(user.getUsername());
             post.setDislikeCount(post.getDislikeCount() +1);
