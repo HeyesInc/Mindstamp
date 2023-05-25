@@ -2,6 +2,7 @@ package com.heyesinc.api.mindstamp.controllers;
 
 import com.heyesinc.api.mindstamp.dtos.Post;
 import com.heyesinc.api.mindstamp.dtos.PostRequest;
+import com.heyesinc.api.mindstamp.dtos.PostResponse;
 import com.heyesinc.api.mindstamp.services.PostService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,16 +42,16 @@ public class PostController {
         return ResponseEntity.ok().body(postService.editPostById(postId, newPost));
     }
     @PostMapping("/{id}/like")
-    public ResponseEntity<Post> addLike(@PathVariable("id") Integer postId, HttpServletRequest request){
+    public ResponseEntity<PostResponse> addLike(@PathVariable("id") Integer postId, HttpServletRequest request){
         return ResponseEntity.ok().body(postService.addLike(postId, request));
     }
     @PostMapping("/{id}/dislike")
-    public ResponseEntity<Post> addDislike(@PathVariable("id") Integer postId, HttpServletRequest request){
+    public ResponseEntity<PostResponse> addDislike(@PathVariable("id") Integer postId, HttpServletRequest request){
         return ResponseEntity.ok().body(postService.addDislike(postId, request));
     }
 
     @GetMapping("/{id}/interactions")
-    public ResponseEntity<Post> getInteractions(@PathVariable("id") Integer postId){
+    public ResponseEntity<PostResponse> getInteractions(@PathVariable("id") Integer postId){
         return ResponseEntity.ok().body(postService.getInteractions(postId));
     }
 }

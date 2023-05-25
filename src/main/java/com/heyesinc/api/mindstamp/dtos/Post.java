@@ -28,8 +28,6 @@ public class Post {
     private User user;
     private String username;
     private String content;
-    private int likeCount;
-    private int dislikeCount;
     private List<String> usersThatDisliked;
     private List<String> usersThatLiked;
     @CreationTimestamp
